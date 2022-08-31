@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Student Log</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/icon"
+      href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body onload="getCourses()">
+    <form>
+      <select
+        aria-label="Select Course"
+        id="course"
+        name="course"
+        data-cy="course_select"
+        onchange="peekABoo(this.selectedIndex)"
+      >
+        <option selected value="">Choose Courses</option>
+      </select>
+
+      <div id="restOfBody">
+        <br />
+        <label for="uvuId">UVU ID</label>
+        <br />
+        <input
+          type="number"
+          id="uvuId"
+          name="uvuId"
+          data-cy="uvuId_input"
+          max="99999999"
+          min="10000000"
+          oninput="checkIt(this.value)"
+        />
+
+        <h3 id="uvuIdDisplay" data-cy="uvuIdDisplay"></h3>
+        <ul data-cy="logs" id="logsList"></ul>
+        <label>New Log</label>
+        <br />
+        <textarea
+          aria-label="add log textarea"
+          data-cy="log_textarea"
+          id="logInput"
+        ></textarea>
+        <br />
+        <button
+          type="button"
+          id="submitButton"
+          disabled
+          data-cy="add_log_btn"
+          onclick="sendIt()"
+        >
+          Add Log
+        </button>
+      </div>
+    </form>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </body>
+  <!-- My brother in Christ, This is a garbage fire and I hate it. Please, Just burn it to the ground while you have a chance. 
+  Basically most of the stuff went well until the server codes are being used, then it got bad.
+  I spent way too long not having the ID's in the logs -->
+</html>
