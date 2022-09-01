@@ -58,9 +58,6 @@ async function getNotes(id) {
       console.log(JSON.stringify(Response));
       for (datum in data) {
         let skip = false;
-        // console.log(datum.id);
-        // console.log(logIDList);
-        //Fuck it, bring out the shit tier code. Cant figure out why these array values are dogshit when checking
         for (ids in logIDList) {
           if (logIDList[ids] === data[datum].id) {
             skip = true;
@@ -84,9 +81,9 @@ async function getNotes(id) {
           logIDList.push(data[datum].id);
 
           console.log(logIDList);
-          document.getElementById("submitButton").removeAttribute("disabled");
         }
       }
+      document.getElementById("submitButton").removeAttribute("disabled");
     });
 }
 function toggleIt(data) {
