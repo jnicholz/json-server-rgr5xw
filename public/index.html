@@ -9,23 +9,36 @@
       href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico"
     />
     <link rel="stylesheet" href="style.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: "#da373d",
+              goldenrod: "#ff5733",
+            },
+          },
+        },
+      };
+    </script>
   </head>
-  <body onload="getCourses()">
-    <form>
+  <body
+    class="text-lg md:text-xl bg-gradient-to-r from-cyan-500 to-indigo-500"
+    onload="getCourses()"
+  >
+    <form class="p-5">
       <select
         aria-label="Select Course"
         id="course"
         name="course"
         data-cy="course_select"
         onchange="peekABoo(this.selectedIndex)"
+        class="col-span-1 flexbox left-4 top-4 h-10 w-30"
       >
         <option selected value="">Choose Courses</option>
       </select>
 
-      <div id="restOfBody">
-        <br />
-        <label for="uvuId">UVU ID</label>
-        <br />
+      <div id="restOfBody" class="hidden grid-cols-3 gap-2 grid-flow-col">
         <input
           type="number"
           id="uvuId"
@@ -34,10 +47,13 @@
           max="99999999"
           min="10000000"
           oninput="checkIt(this.value)"
+          class="col-start-2 col-end-3"
+          value="UVU ID"
         />
+        <label for="uvuId">UVU ID</label>
 
         <h3 id="uvuIdDisplay" data-cy="uvuIdDisplay"></h3>
-        <ul data-cy="logs" id="logsList"></ul>
+        <ul data-cy="logs" id="logsList" class="col-start-2 col-end-4"></ul>
         <label>New Log</label>
         <br />
         <textarea
@@ -52,6 +68,7 @@
           disabled
           data-cy="add_log_btn"
           onclick="sendIt()"
+          class=""
         >
           Add Log
         </button>
