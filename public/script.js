@@ -69,13 +69,11 @@ async function getNotes(id) {
         if (!skip) {
           document.getElementById(
             "logsList"
-          ).innerHTML += `<li onclick="toggleIt( '${data[datum].id}' )">
-                <div>
-                  <small> 
+          ).innerHTML += `<li onclick="toggleIt( '${data[datum].id}')" class ="my-2 rounded bg-purple-100">
+                  <small class="self-end"> 
                     ${data[datum].date}
                   </small>
-                </div>
-                <p id="${data[datum].id}" style="display:block">
+                <p id="${data[datum].id}">
                   ${data[datum].text}
                 </p></li>`;
           logIDList.push(data[datum].id);

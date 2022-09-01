@@ -38,7 +38,7 @@
         <option selected value="">Choose Courses</option>
       </select>
 
-      <div id="restOfBody" class="hidden grid-cols-3 gap-2 grid-flow-col">
+      <div id="restOfBody" class="hidden pt-5 grid-cols-3 gap-2 grid-flow-col">
         <input
           type="number"
           id="uvuId"
@@ -51,9 +51,10 @@
           value="UVU ID"
         />
         <label for="uvuId">UVU ID</label>
-
-        <h3 id="uvuIdDisplay" data-cy="uvuIdDisplay"></h3>
-        <ul data-cy="logs" id="logsList" class="col-start-2 col-end-4"></ul>
+        <div class="md:container bg-blue-100 rounded my-3">
+          <h2 id="uvuIdDisplay" data-cy="uvuIdDisplay"></h2>
+          <ul data-cy="logs" id="logsList"></ul>
+        </div>
         <label>New Log</label>
         <br />
         <textarea
