@@ -22,7 +22,6 @@
     class="text-lg md:text-xl "
     onload="getCourses()"
   >
-    <!-- https://myuvu-my.sharepoint.com/:v:/g/personal/10808080_my_uvu_edu/EZecNU5fVRZLuHCwjkFdFsABVcEDo_xvFcjVR-tsyBGEVw?e=zyRdua -->
     <header
       class="
         relative
@@ -40,7 +39,7 @@
           z-30
           p-5
           text-2xl 
-          bg-purple-300 bg-opacity-50
+          bg-purple-300 bg-opacity-80
           rounded-xl
           overflow-hidden
         "
@@ -52,11 +51,12 @@
         name="course"
         data-cy="course_select"
         onchange="peekABoo(this.selectedIndex)"
-        class="col-span-1 flexbox left-4 top-4 h-10 w-30"
+        class="col-span-1 flexbox left-4 top-4 h-9 w-30 rounded"
       >
         <option selected value="">Choose Courses</option>
       </select>
       <div id="restOfBody" class="hidden pt-5 grid-cols-3 gap-2 grid-flow-col">
+      
         <input
           type="number"
           id="uvuId"
@@ -65,20 +65,23 @@
           max="99999999"
           min="10000000"
           oninput="checkIt(this.value)"
-          class="col-start-2 col-end-3"
+          class="w-30 rounded"
           value="UVU ID"
         />
         <label for="uvuId">UVU ID</label>
-        <div class="md:container bg-blue-100 rounded my-3">
+        
+        <div class="md:container bg-blue-100 rounded px-2 my-3">
           <h2 id="uvuIdDisplay" data-cy="uvuIdDisplay"></h2>
           <ul data-cy="logs" id="logsList"></ul>
         </div>
-        <label>New Log</label>
+        
         <br />
+        <label for="logInput">New Log</label>
         <textarea
           aria-label="add log textarea"
           data-cy="log_textarea"
           id="logInput"
+          class="rounded flex w-full"
         ></textarea>
         <br />
         <button
@@ -87,7 +90,7 @@
           disabled
           data-cy="add_log_btn"
           onclick="sendIt()"
-          class=""
+          class="button"
         >
           Add Log
         </button>
