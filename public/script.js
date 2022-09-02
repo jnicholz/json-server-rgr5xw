@@ -12,6 +12,7 @@ function createUUID() {
     return v.toString(16);
   });
 }
+
 async function getCourses() {
   console.log("get Courses triggered");
   response = await axios("/api/v1/courses");
@@ -21,17 +22,8 @@ async function getCourses() {
     ).innerHTML += `<option value=${response.data[datum].id}>${response.data[datum].display}</option>`;
   }
   courses = response.data;
-  // fetch("https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/courses")
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     for (datum in data) {
-  //       document.getElementById(
-  //         "course"
-  //       ).innerHTML += `<option value=${data[datum].id}>${data[datum].display}</option>`;
-  //     }
-  //     courses = data;
-  //   });
 }
+
 function peekABoo(data) {
   if (data != 0) {
     document.getElementById("restOfBody").style.display = "block";
@@ -80,7 +72,7 @@ async function getNotes(id) {
                   <small class="self-end"> 
                     ${data[datum].date}
                   </small>
-                <p id="${data[datum].id}">
+                <p style="display:block" id="${data[datum].id}">
                   ${data[datum].text}
                 </p></li>`;
       logIDList.push(data[datum].id);
@@ -93,19 +85,17 @@ async function getNotes(id) {
 function toggleIt(data) {
   console.log(data);
   disp = document.getElementById(data).style.display;
-  if (disp == "block") {
+  if (disp == "list-item") {
     console.log("at block");
     document.getElementById(data).style.display = "none";
   } else {
-    document.getElementById(data).style.display = "block";
+    document.getElementById(data).style.display = "list-item";
   }
 }
 async function sendIt() {
   let rn = new Date();
   let idToUse = createUUID();
   let text = document.getElementById("logInput").value;
-
-  const dataToBeSent = {};
 
   try {
     let response = await axios({
