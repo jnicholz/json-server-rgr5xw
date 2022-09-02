@@ -11,7 +11,7 @@
           extend: {
             colors: {
               clifford: "#da373d",
-              goldenrod: "#ff5733",
+             'goldenrod': "#ff5733",
             },
           },
         },
@@ -69,12 +69,11 @@
         />
         <label for="uvuId">UVU ID</label>
         
-        <div class="md:container bg-blue-100 rounded px-2 my-3">
+        <div class="md:container bg-blue-100 rounded p-2 my-3">
           <h2 id="uvuIdDisplay" data-cy="uvuIdDisplay"></h2>
           <ul data-cy="logs" id="logsList"></ul>
         </div>
-        
-        <br />
+
         <label for="logInput">New Log</label>
         <textarea
           aria-label="add log textarea"
@@ -82,14 +81,13 @@
           id="logInput"
           class="rounded flex w-full"
         ></textarea>
-        <br />
         <button
           type="button"
           id="submitButton"
-          disabled
           data-cy="add_log_btn"
           onclick="sendIt()"
-          class="button"
+          disabled
+          class="bg-indigo-300 p-2 my-2 rounded disabled:opacity-20 "
         >
           Add Log
         </button>

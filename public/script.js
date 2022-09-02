@@ -85,11 +85,10 @@ async function getNotes(id) {
 function toggleIt(data) {
   console.log(data);
   disp = document.getElementById(data).style.display;
-  if (disp == "list-item") {
-    console.log("at block");
+  if (disp == "block") {
     document.getElementById(data).style.display = "none";
   } else {
-    document.getElementById(data).style.display = "list-item";
+    document.getElementById(data).style.display = "block";
   }
 }
 async function sendIt() {
@@ -111,32 +110,6 @@ async function sendIt() {
     });
     console.log(response);
     getNotes(stdID);
-    // let response = await fetch(
-    //   `https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/logs?courseId=${courseSel}&uvuId=${stdID}&id=${idToUse}&courseId=${courseSel}&date=${rn.toLocaleString()}&text=${text}`,
-    //   {
-    //     method: "POST",
-    //     mode: "cors",
-    //     cache: "no-cache",
-    //     credentials: "same-origin",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       id: `${idToUse}`,
-    //       courseId: `${courseSel}`,
-    //       uvuId: `${stdID}`,
-    //       date: `${rn.toLocaleString()}`,
-    //       text: `${text}`,
-    //     },
-    //     body: JSON.stringify(data),
-    //   }
-    // )
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   console.log("Success:", data);
-    //   getNotes(stdID);
-    // })
-    // .catch((error) => {
-    //   console.error("Error:", error);
-    // });
   } catch (err) {
     console.log(err);
   }
