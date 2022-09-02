@@ -14,16 +14,23 @@ function createUUID() {
 }
 async function getCourses() {
   console.log("get Courses triggered");
-  fetch("https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/courses")
-    .then((response) => response.json())
-    .then((data) => {
-      for (datum in data) {
-        document.getElementById(
-          "course"
-        ).innerHTML += `<option value=${data[datum].id}>${data[datum].display}</option>`;
-      }
-      courses = data;
-    });
+  response = await axios("/api/v1/courses");
+  for (datum in response.data) {
+    document.getElementById(
+      "course"
+    ).innerHTML += `<option value=${response.data[datum].id}>${response.data[datum].display}</option>`;
+  }
+  courses = response.data;
+  // fetch("https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/courses")
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     for (datum in data) {
+  //       document.getElementById(
+  //         "course"
+  //       ).innerHTML += `<option value=${data[datum].id}>${data[datum].display}</option>`;
+  //     }
+  //     courses = data;
+  //   });
 }
 function peekABoo(data) {
   if (data != 0) {
@@ -50,39 +57,38 @@ async function checkIt(data) {
 }
 async function getNotes(id) {
   console.log("get notes triggered");
-  fetch(
-    `https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/logs?courseId=${courseSel}&uvuId=${id}`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(JSON.stringify(Response));
-      for (datum in data) {
-        let skip = false;
-        for (ids in logIDList) {
-          if (logIDList[ids] === data[datum].id) {
-            skip = true;
-            break;
-          } else {
-            console.log("add ");
-          }
-        }
-        if (!skip) {
-          document.getElementById(
-            "logsList"
-          ).innerHTML += `<li onclick="toggleIt( '${data[datum].id}')" class ="my-2 rounded bg-purple-100">
+  let response = await axios({
+    method: "get",
+    url: `https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/logs?courseId=${courseSel}&uvuId=${id}`,
+  });
+  let data = response.data;
+  // console.log(response.data);
+  for (datum in data) {
+    let skip = false;
+    for (ids in logIDList) {
+      if (logIDList[ids] === data[datum].id) {
+        skip = true;
+        break;
+      } else {
+        console.log("add ");
+      }
+    }
+    if (!skip) {
+      document.getElementById(
+        "logsList"
+      ).innerHTML += `<li onclick="toggleIt( '${data[datum].id}')" class ="my-2 rounded bg-purple-100">
                   <small class="self-end"> 
                     ${data[datum].date}
                   </small>
                 <p id="${data[datum].id}">
                   ${data[datum].text}
                 </p></li>`;
-          logIDList.push(data[datum].id);
+      logIDList.push(data[datum].id);
 
-          console.log(logIDList);
-        }
-      }
-      document.getElementById("submitButton").removeAttribute("disabled");
-    });
+      console.log(logIDList);
+    }
+  }
+  document.getElementById("submitButton").removeAttribute("disabled");
 }
 function toggleIt(data) {
   console.log(data);
@@ -99,41 +105,48 @@ async function sendIt() {
   let idToUse = createUUID();
   let text = document.getElementById("logInput").value;
 
-  const data = {
-    courseId: courseSel,
-    uvuId: stdID,
-    date: rn.toLocaleString(),
-    text: document.getElementById("logInput").value,
-    id: idToUse,
-  };
-  console.log(JSON.stringify(data));
+  const dataToBeSent = {};
+
   try {
-    let response = await fetch(
-      `https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/logs?courseId=${courseSel}&uvuId=${stdID}&id=${idToUse}&courseId=${courseSel}&date=${rn.toLocaleString()}&text=${text}`,
-      {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-          id: `${idToUse}`,
-          courseId: `${courseSel}`,
-          uvuId: `${stdID}`,
-          date: `${rn.toLocaleString()}`,
-          text: `${text}`,
-        },
-        body: JSON.stringify(data),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        getNotes(stdID);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    let response = await axios({
+      method: "post",
+      url: `https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/logs?courseId=${courseSel}&uvuId=${stdID}&id=${idToUse}&courseId=${courseSel}&date=${rn.toLocaleString()}&text=${text}`,
+      data: {
+        courseId: courseSel,
+        uvuId: stdID,
+        date: rn.toLocaleString(),
+        text: document.getElementById("logInput").value,
+        id: idToUse,
+      },
+    });
+    console.log(response);
+    getNotes(stdID);
+    // let response = await fetch(
+    //   `https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/logs?courseId=${courseSel}&uvuId=${stdID}&id=${idToUse}&courseId=${courseSel}&date=${rn.toLocaleString()}&text=${text}`,
+    //   {
+    //     method: "POST",
+    //     mode: "cors",
+    //     cache: "no-cache",
+    //     credentials: "same-origin",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       id: `${idToUse}`,
+    //       courseId: `${courseSel}`,
+    //       uvuId: `${stdID}`,
+    //       date: `${rn.toLocaleString()}`,
+    //       text: `${text}`,
+    //     },
+    //     body: JSON.stringify(data),
+    //   }
+    // )
+    // .then((response) => response.json())
+    // .then((data) => {
+    //   console.log("Success:", data);
+    //   getNotes(stdID);
+    // })
+    // .catch((error) => {
+    //   console.error("Error:", error);
+    // });
   } catch (err) {
     console.log(err);
   }
