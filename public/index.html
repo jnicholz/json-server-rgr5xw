@@ -3,11 +3,7 @@
   <head>
     <title>Student Log</title>
     <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/icon"
-      href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico"
-    />
+    <link rel="icon" type="image/icon" href="https://i.imgur.com/cfzHjVT.png" />
     <link rel="stylesheet" href="style.css" />
     <script>
       tailwind.config = {
@@ -23,10 +19,33 @@
     </script>
   </head>
   <body
-    class="text-lg md:text-xl bg-gradient-to-r from-cyan-500 to-indigo-500"
+    class="text-lg md:text-xl "
     onload="getCourses()"
   >
-    <form class="p-5">
+    <!-- https://myuvu-my.sharepoint.com/:v:/g/personal/10808080_my_uvu_edu/EZecNU5fVRZLuHCwjkFdFsABVcEDo_xvFcjVR-tsyBGEVw?e=zyRdua -->
+    <header
+      class="
+        relative
+        flex
+        items-center
+        justify-center
+        h-screen
+        mb-12
+        overflow-hidden
+      "
+    >
+      <div
+        class="
+          relative
+          z-30
+          p-5
+          text-2xl 
+          bg-purple-300 bg-opacity-50
+          rounded-xl
+          overflow-hidden
+        "
+      >
+      <form class="p-5">
       <select
         aria-label="Select Course"
         id="course"
@@ -37,7 +56,6 @@
       >
         <option selected value="">Choose Courses</option>
       </select>
-
       <div id="restOfBody" class="hidden pt-5 grid-cols-3 gap-2 grid-flow-col">
         <input
           type="number"
@@ -74,6 +92,22 @@
           Add Log
         </button>
       </div>
+    </div>
+      <video
+        autoplay
+        loop
+        muted
+        class="absolute z-10 w-auto min-w-full min-h-full max-w-none"
+      >
+      
+        <source
+          src="https://pro2-bar.myportfolio.com/v1/ccvproxy/9-7pn9o8Mnj?width=2560&type=mp4&h=cf17b405294aa266b1047e1917c93702"
+          type="video/mp4"
+        />
+      </video>
+    </header>
+
+   
     </form>
 
     <script src="script.js"></script>
