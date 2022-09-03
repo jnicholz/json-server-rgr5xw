@@ -1,5 +1,6 @@
 // TODO: Wire up the app's behavior here.
 // NOTE: The TODOs are listed in index.html
+
 var courseSel = "";
 var courses = {};
 var stat;
@@ -17,19 +18,22 @@ async function getCourses() {
   console.log("get Courses triggered");
   response = await axios("/api/v1/courses");
   for (datum in response.data) {
-    document.getElementById(
-      "course"
+    $(
+      "#course"
     ).innerHTML += `<option value=${response.data[datum].id}>${response.data[datum].display}</option>`;
   }
   courses = response.data;
 }
 
 function peekABoo(data) {
+  let form = $("#restOfBody");
   if (data != 0) {
-    document.getElementById("restOfBody").style.display = "block";
+    show(form);
+    // $("#restOfBody").style.display = "block";
     courseSel = courses[data].id;
   } else {
-    document.getElementById("restOfBody").style.display = "none";
+    hide(form);
+    // $("#restOfBody").style.display = "none";
     courseSel = "";
   }
 }
@@ -39,9 +43,7 @@ async function checkIt(data) {
   if (!isNaN(data)) {
     if (data > 9999999) {
       console.log("it be 8 char");
-      document.getElementById(
-        "uvuIdDisplay"
-      ).innerText = `Student Logs for ${data}`;
+      $("#uvuIdDisplay").innerText = `Student Logs for ${data}`;
       stdID = data;
       getNotes(data);
     }
@@ -66,9 +68,9 @@ async function getNotes(id) {
       }
     }
     if (!skip) {
-      document.getElementById(
-        "logsList"
-      ).innerHTML += `<li onclick="toggleIt( '${data[datum].id}')" class ="my-2 rounded bg-purple-100">
+      $(
+        "#logsList"
+      ).innerHTML += `<li onclick="toggleIt( '#${data[datum].id}')" class ="my-2 rounded bg-purple-100">
                   <small class="self-end"> 
                     ${data[datum].date}
                   </small>
@@ -80,21 +82,21 @@ async function getNotes(id) {
       console.log(logIDList);
     }
   }
-  document.getElementById("submitButton").removeAttribute("disabled");
+  $("#submitButton").removeAttribute("disabled");
 }
 function toggleIt(data) {
   console.log(data);
-  disp = document.getElementById(data).style.display;
+  disp = $(data).style.display;
   if (disp == "block") {
-    document.getElementById(data).style.display = "none";
+    hide($(data));
   } else {
-    document.getElementById(data).style.display = "block";
+    show($(data));
   }
 }
 async function sendIt() {
   let rn = new Date();
   let idToUse = createUUID();
-  let text = document.getElementById("logInput").value;
+  let text = $("#logInput").value;
 
   try {
     let response = await axios({
@@ -104,7 +106,7 @@ async function sendIt() {
         courseId: courseSel,
         uvuId: stdID,
         date: rn.toLocaleString(),
-        text: document.getElementById("logInput").value,
+        text: $("#logInput").value,
         id: idToUse,
       },
     });
