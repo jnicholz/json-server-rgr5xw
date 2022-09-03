@@ -1,10 +1,8 @@
-// TODO: Wire up the app's behavior here.
-// NOTE: The TODOs are listed in index.html
 
 var courseSel = "";
 var courses = {};
 var stat;
-var stdID;
+var stdID = null;
 var logIDList = [];
 function createUUID() {
   return "xxxxxxx".replace(/[xy]/g, function (c) {
@@ -25,24 +23,29 @@ async function getCourses() {
   courses = response.data;
 }
 
-function peekABoo(data) {
+function toggleFormBody(data) {
   let form = $("#restOfBody");
   if (data != 0) {
     show(form);
-    // $("#restOfBody").style.display = "block";
-    courseSel = courses[data].id;
+    courseSel = courses[data - 1].id;
+    if (stdID != null) {
+      removeList();
+      getNotes(stdID);
+    }
   } else {
     hide(form);
-    // $("#restOfBody").style.display = "none";
     courseSel = "";
   }
 }
 
-async function checkIt(data) {
-  console.log(data);
+function removeList() {
+  $("#logsList").innerHTML = "";
+  logIDList = [];
+}
+
+async function checkID(data) {
   if (!isNaN(data)) {
-    if (data > 9999999) {
-      console.log("it be 8 char");
+    if (100000000 > data && data > 9999999) {
       $("#uvuIdDisplay").innerText = `Student Logs for ${data}`;
       stdID = data;
       getNotes(data);
@@ -56,21 +59,18 @@ async function getNotes(id) {
     url: `https://json-server-jchvgz--3000.local.webcontainer.io/api/v1/logs?courseId=${courseSel}&uvuId=${id}`,
   });
   let data = response.data;
-  // console.log(response.data);
   for (datum in data) {
     let skip = false;
     for (ids in logIDList) {
       if (logIDList[ids] === data[datum].id) {
         skip = true;
         break;
-      } else {
-        console.log("add ");
       }
     }
     if (!skip) {
       $(
         "#logsList"
-      ).innerHTML += `<li onclick="toggleIt( '#${data[datum].id}')" class ="my-2 rounded bg-purple-100">
+      ).innerHTML += `<li onclick="toggleNote( '#${data[datum].id}')" class ="my-2 rounded bg-purple-100">
                   <small class="self-end"> 
                     ${data[datum].date}
                   </small>
@@ -78,14 +78,11 @@ async function getNotes(id) {
                   ${data[datum].text}
                 </p></li>`;
       logIDList.push(data[datum].id);
-
-      console.log(logIDList);
     }
   }
   $("#submitButton").removeAttribute("disabled");
 }
-function toggleIt(data) {
-  console.log(data);
+function toggleNote(data) {
   disp = $(data).style.display;
   if (disp == "block") {
     hide($(data));
