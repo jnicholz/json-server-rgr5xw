@@ -1,86 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Student Log</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/icon" href="favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <title>Student Log</title>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/icon" href="favicon.png" />
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body
+    class="text-white bg-PriWhite font-correct"
+    id="body"
+    onload="checkTheme(),getCourses()"
+  >
+    <form class="p-5 flex-col">
+      <button
+        class="bg-SecDarkGrn p-2 m-2 rounded"
+        id="themeToggle"
+        onclick="setTheme('dark')"
+      >
+        Change Theme
+      </button>
+      <br />
+      <div class="bg-PriGreen justify-items-stretch p-5 m-2 rounded flex">
+        <select
+          aria-label="Select Course"
+          id="course"
+          name="course"
+          data-cy="course_select"
+          onchange="toggleFormBody(this.selectedIndex)"
+          class="col-span-1 flexbox left-4 top-4 h-9 w-30 bg-PriSilver rounded"
+        >
+          <option selected value="">Choose Courses</option>
+        </select>
+      </div>
 
-<body class="text-white bg-PriWhite font-correct " id="body" onload="checkTheme(),getCourses()">
-      <form class="p-5 flex-col" >
-        <button class="bg-SecDarkGrn p-2 m-2 rounded" id="themeToggle" onclick="setTheme('dark')">Change Theme</button>
-        <br/>
-        <div class="bg-PriGreen p-5 m-2 rounded flex ">
-          <select aria-label="Select Course" id="course"  name="course" data-cy="course_select"
-            onchange="toggleFormBody(this.selectedIndex)" class="col-span-1 flexbox left-4 top-4 h-9 w-30 bg-PriSilver rounded">
-            <option selected value="">Choose Courses</option>
-          </select>
-
-          <img class="flex"  src="logo-white.png">
+      <div id="restOfBody" class="hidden">
+        <div class="bg-PriGreen rounded p-5 m-2">
+          <input
+            type="number"
+            id="uvuId"
+            name="uvuId"
+            data-cy="uvuId_input"
+            max="99999999"
+            min="10000000"
+            oninput="checkID(this.value)"
+            class="w-30 rounded bg-PriSilver"
+            value="UVU ID"
+          />
+          <label for="uvuId">UVU ID</label>
         </div>
-        
-
-        <div id="restOfBody" class="hidden">
-          <div class="bg-PriGreen rounded p-5 m-2">
-            <input type="number" id="uvuId" name="uvuId" data-cy="uvuId_input" max="99999999" min="10000000"
-            oninput="checkID(this.value)" class="w-30 rounded bg-PriSilver" value="UVU ID" />
-            <label for="uvuId">UVU ID</label>
-          </div>
-          <div class=" bg-PriGreen rounded p-5 m-2 ">
+        <div class="bg-PriGreen rounded p-5 m-2">
+          <div class="bg-blackLogo bg-center bg-no-repeat min-h-[500px]">
             <h2 id="uvuIdDisplay" data-cy="uvuIdDisplay"></h2>
-            <ul data-cy="logs" id="logsList" ></ul>
+            <ul data-cy="logs" id="logsList"></ul>
           </div>
-          <div class="bg-PriGreen rounded p-5 m-2">
+        </div>
+        <div class="bg-PriGreen rounded p-5 m-2">
           <label for="logInput">New Log</label>
-          <textarea aria-label="add log textarea" data-cy="log_textarea" id="logInput"
-            class="rounded flex w-full bg-PriSilver" placeholder="Your Thoughts Here...."></textarea>
-          <button type="button" id="submitButton" data-cy="add_log_btn" onclick="sendIt()" disabled
-            class=" bg-SecDarkGrn p-2 my-2 rounded disabled:opacity-20 ">
+          <textarea
+            aria-label="add log textarea"
+            data-cy="log_textarea"
+            id="logInput"
+            class="rounded flex w-full bg-PriSilver"
+            placeholder="Your Thoughts Here...."
+          ></textarea>
+          <button
+            type="button"
+            id="submitButton"
+            data-cy="add_log_btn"
+            onclick="sendIt()"
+            disabled
+            class="bg-SecDarkGrn p-2 my-2 rounded disabled:opacity-20"
+          >
             Add Log
           </button>
         </div>
-        </div>
-
-  </form>
-  <script src="jQL.js"></script>
-  <script src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            PriGreen: "#275D38",
-            PriBlack: '#000000',
-            PriWhite: '#FFFFFF',
-            PriSilver:'#8E8C89',
-            SecDarkGrn:'#00843D',
-            SecMedGrn:'#4BA23F',
-            SecLiteGrn:'#78BE20'
+      </div>
+    </form>
+    <script src="jQL.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              PriGreen: "#275D38",
+              PriBlack: "#000000",
+              PriWhite: "#FFFFFF",
+              PriSilver: "#8E8C89",
+              SecDarkGrn: "#00843D",
+              SecMedGrn: "#4BA23F",
+              SecLiteGrn: "#78BE20",
+            },
+            gradient: {
+              grad: "gradient-to-r",
+            },
+            backgroundImage: {
+              blackLogo: "url('/logo-black.png')",
+              whiteLogo: "url('/logo-white.png')",
+            },
+            padding: {
+              inputBubble: "5px",
+            },
+            theme: {
+              darkMode: "",
+            },
+            fontFamily: {
+              correct: ["arial"],
+            },
           },
-          gradient:{
-            grad:"gradient-to-r"
-          },
-
-          padding: {
-            inputBubble: "5px",
-          },
-          padding:{
-            inputBubble: "m-2"
-          },
-          theme:{
-            darkMode:""
-          },
-          fontFamily:{
-            'correct':['arial']
-          }
-        }
-      }
-    }
-  </script>
-</body>
-
+        },
+      };
+    </script>
+  </body>
 </html>

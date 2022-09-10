@@ -5,10 +5,11 @@ var courses = {};
 var stat;
 var stdID = null;
 var logIDList = [];
-var currTheme = "bg-PriSilver"
-var PriColorNodes
-var SecColorNodes
-var MainPage
+var currTheme = "bg-PriSilver";
+var PriColorNodes;
+var SecColorNodes;
+var MainPage;
+var backDropImage;
 
 function createUUID() {
   return "xxxxxxx".replace(/[xy]/g, function (c) {
@@ -20,7 +21,7 @@ function createUUID() {
 
 async function getCourses() {
   // console.log("get Courses triggered");
-  if(courseSel==""){
+  if (courseSel == "") {
     response = await axios("/api/v1/courses");
     for (datum in response.data) {
       $(
@@ -31,59 +32,72 @@ async function getCourses() {
   }
 }
 
-function checkTheme(){
+function checkTheme() {
   // console.log ("theme checked")
-  PriColorNodes=document.querySelectorAll("div.bg-PriGreen")
-  SecColorNodes=document.querySelectorAll(".bg-PriSilver")
-  MainPage = document.querySelectorAll(".bg-PriWhite")  
-  console.log(`user pref: ${localStorage.theme} `)
-  console.log(`OS pref: Dark:${window.matchMedia('(prefers-color-scheme: dark)').matches} Light:${window.matchMedia('(prefers-color-scheme: light)').matches}`)
-  
-  if(localStorage.theme ){
-    setTheme(localStorage.theme)
+  PriColorNodes = document.querySelectorAll("div.bg-PriGreen");
+  SecColorNodes = document.querySelectorAll(".bg-PriSilver");
+  MainPage = document.querySelectorAll(".bg-PriWhite");
+  backDropImage = document.querySelectorAll(".bg-blackLogo");
+  console.log(`user pref: ${localStorage.theme} `);
+  console.log(
+    `OS pref: Dark:${
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    } Light:${window.matchMedia("(prefers-color-scheme: light)").matches}`
+  );
+
+  if (localStorage.theme) {
+    setTheme(localStorage.theme);
   }
- 
+
   //Branch here to check call of theme
-  else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    setTheme("dark")
-    console.log("OS Pref: Dark")  
-  }
-
-  else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    setTheme("light")
-    localStorage.setItem("theme", "light")
-    console.log("OS Pref: Light") 
-  }
-  else{
-    console.log("no OS Pref, Setting to Light theme")
-  }
-}
-
-function setTheme(data){
-  if (data == "dark"){
-    localStorage.setItem("theme", "dark")
-    currTheme = "bg-PriGreen"
-    modifyColors(PriColorNodes,"bg-PriGreen","bg-SecMedGrn")
-    modifyColors(SecColorNodes,"bg-PriSilver","bg-PriGreen")
-    modifyColors(MainPage,"bg-PriWhite","bg-PriBlack")
-    document.getElementById("themeToggle").setAttribute("onclick","setTheme('light')")    
-
-  }
-  else{
-    localStorage.setItem("theme", "light")
-    modifyColors(PriColorNodes,"bg-SecMedGrn","bg-PriGreen")
-    modifyColors(SecColorNodes,"bg-PriGreen","bg-PriSilver")
-    modifyColors(MainPage, "bg-PriBlack", "bg-PriWhite")
-    document.getElementById("themeToggle").setAttribute("onclick","setTheme('dark')")      
+  else if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    setTheme("dark");
+    console.log("OS Pref: Dark");
+  } else if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: light)").matches
+  ) {
+    setTheme("light");
+    localStorage.setItem("theme", "light");
+    console.log("OS Pref: Light");
+  } else {
+    console.log("no OS Pref, Setting to Light theme");
   }
 }
 
-function modifyColors(obj, target, replacement ){
-    obj.forEach(node => {
-    node.classList.remove(target)
-    node.classList.add(replacement)
-  })
-}; 
+function setTheme(data) {
+  if (data == "dark") {
+    localStorage.setItem("theme", "dark");
+    currTheme = "bg-PriGreen";
+    modifyColors(PriColorNodes, "bg-PriGreen", "bg-SecMedGrn");
+    modifyColors(SecColorNodes, "bg-PriSilver", "bg-PriGreen");
+    modifyColors(MainPage, "bg-PriWhite", "bg-PriBlack");
+    modifyColors(backDropImage, "bg-whiteLogo", "bg-blackLogo");
+    document
+      .getElementById("themeToggle")
+      .setAttribute("onclick", "setTheme('light')");
+  } else {
+    localStorage.setItem("theme", "light");
+    modifyColors(PriColorNodes, "bg-SecMedGrn", "bg-PriGreen");
+    modifyColors(SecColorNodes, "bg-PriGreen", "bg-PriSilver");
+    modifyColors(MainPage, "bg-PriBlack", "bg-PriWhite");
+
+    modifyColors(backDropImage, "bg-blackLogo", "bg-whiteLogo");
+    document
+      .getElementById("themeToggle")
+      .setAttribute("onclick", "setTheme('dark')");
+  }
+}
+
+function modifyColors(obj, target, replacement) {
+  obj.forEach((node) => {
+    node.classList.remove(target);
+    node.classList.add(replacement);
+  });
+}
 
 function toggleFormBody(data) {
   let form = $("#restOfBody");
